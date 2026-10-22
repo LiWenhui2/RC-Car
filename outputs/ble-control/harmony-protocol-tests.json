@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "tests": [
+    {
+      "name": "ten-byte signed little-endian control",
+      "passed": true
+    },
+    {
+      "name": "axis limits and sequence wraparound",
+      "passed": true
+    },
+    {
+      "name": "vehicle feedback with negative throttle and unsigned sequence",
+      "passed": true
+    },
+    {
+      "name": "invalid length version state and ranges rejected",
+      "passed": true
+    }
+  ]
+}

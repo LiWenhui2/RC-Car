@@ -1,0 +1,20 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "RC-Car BLE 控制"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "小车蓝牙控制"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "RC 小车"
+    },
+    {
+      "name": "bluetooth_reason",
+      "value": "用于扫描并连接遥控小车，发送驾驶指令和接收车辆状态"
+    }
+  ]
+}

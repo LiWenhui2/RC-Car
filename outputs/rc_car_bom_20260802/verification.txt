@@ -1,0 +1,3 @@
+{"kind":"region","sheet":"采购总览","address":"D3:H9","rows":7,"cols":5,"nonEmpty":26,"blank":9,"text":26,"maxTextLength":26,"preview":[["本次纠正的关键项目",null,null,null,null],["项目","原清单","本次核对","处理","说明"],["ESP32-C3","¥78.00","¥13.10","已替换","DZQJ 已焊接版；2块 ¥26.20，页面标注包邮"],["2WD底盘","¥59.00","¥12.83","已更正","已切换到“2WD迷你全套”对应SKU"],["USB数据线","¥39.90","¥83.00","不计预算","页面为2个装，运费未显示"]],"previewAddress":"D3:H7","previewRows":5,"previewCols":5}
+{"kind":"region","sheet":"采购总览","address":"A3:B9","rows":7,"cols":2,"nonEmpty":14,"text":14,"maxTextLength":10,"preview":[["指标","结果"],["已核实并计入预算","39.03"],["完整核实条目数","2"],["待补价格/运费条目数","8"],["链接失效/待重新选品","2"]],"previewAddress":"A3:B7","previewRows":5,"previewCols":2}
+{"kind":"notice","message":"Cell search matched 0 entries."}

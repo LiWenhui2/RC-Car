@@ -1,0 +1,183 @@
+{
+  "zero_motion_only": true,
+  "tests": [
+    {
+      "name": "connected_is_locked",
+      "passed": true,
+      "status": {
+        "version": 1,
+        "armed": false,
+        "reason": 1,
+        "applied": 0,
+        "steering": 0,
+        "sequence": 0
+      }
+    },
+    {
+      "name": "explicit_neutral_arm",
+      "passed": true,
+      "status": {
+        "version": 1,
+        "armed": true,
+        "reason": 0,
+        "applied": 0,
+        "steering": 0,
+        "sequence": 12
+      }
+    },
+    {
+      "name": "explicit_lock",
+      "passed": true,
+      "status": {
+        "version": 1,
+        "armed": false,
+        "reason": 5,
+        "applied": 0,
+        "steering": 0,
+        "sequence": 53
+      }
+    },
+    {
+      "name": "no_automatic_rearm",
+      "passed": true
+    },
+    {
+      "name": "rearm_requires_request",
+      "passed": true,
+      "status": {
+        "version": 1,
+        "armed": true,
+        "reason": 0,
+        "applied": 0,
+        "steering": 0,
+        "sequence": 92
+      }
+    },
+    {
+      "name": "heartbeat_timeout_locks",
+      "passed": true,
+      "status": {
+        "version": 1,
+        "armed": false,
+        "reason": 3,
+        "applied": 0,
+        "steering": 0,
+        "sequence": 93
+      }
+    },
+    {
+      "name": "replayed_packets_do_not_refresh_heartbeat",
+      "passed": true
+    },
+    {
+      "name": "fresh_packets_allow_explicit_rearm",
+      "passed": true,
+      "status": {
+        "version": 1,
+        "armed": true,
+        "reason": 0,
+        "applied": 0,
+        "steering": 0,
+        "sequence": 125
+      }
+    },
+    {
+      "name": "emergency_stop_locks",
+      "passed": true,
+      "status": {
+        "version": 1,
+        "armed": false,
+        "reason": 4,
+        "applied": 0,
+        "steering": 0,
+        "sequence": 165
+      }
+    },
+    {
+      "name": "malformed_packet_locks",
+      "passed": true,
+      "status": {
+        "version": 1,
+        "armed": false,
+        "reason": 6,
+        "applied": 0,
+        "steering": 0,
+        "sequence": 205
+      }
+    },
+    {
+      "name": "reconnect_is_locked",
+      "passed": true
+    }
+  ],
+  "started": "2026-10-22 23:24:21",
+  "address": "44:B1:76:08:66:9A",
+  "recent_notifications": [
+    {
+      "version": 1,
+      "armed": false,
+      "reason": 1,
+      "applied": 0,
+      "steering": 0,
+      "sequence": 0
+    },
+    {
+      "version": 1,
+      "armed": true,
+      "reason": 0,
+      "applied": 0,
+      "steering": 0,
+      "sequence": 12
+    },
+    {
+      "version": 1,
+      "armed": false,
+      "reason": 5,
+      "applied": 0,
+      "steering": 0,
+      "sequence": 53
+    },
+    {
+      "version": 1,
+      "armed": true,
+      "reason": 0,
+      "applied": 0,
+      "steering": 0,
+      "sequence": 92
+    },
+    {
+      "version": 1,
+      "armed": false,
+      "reason": 3,
+      "applied": 0,
+      "steering": 0,
+      "sequence": 93
+    },
+    {
+      "version": 1,
+      "armed": true,
+      "reason": 0,
+      "applied": 0,
+      "steering": 0,
+      "sequence": 125
+    },
+    {
+      "version": 1,
+      "armed": false,
+      "reason": 4,
+      "applied": 0,
+      "steering": 0,
+      "sequence": 165
+    },
+    {
+      "version": 1,
+      "armed": false,
+      "reason": 6,
+      "applied": 0,
+      "steering": 0,
+      "sequence": 205
+    }
+  ],
+  "notification_count": 8,
+  "passed": true
+}

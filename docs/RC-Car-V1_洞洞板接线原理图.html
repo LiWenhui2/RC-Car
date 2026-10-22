@@ -1,0 +1,351 @@
+﻿<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>:root{--background:#fff;--foreground:#151515;--card:#f7f7f7;--muted:#e8e8e8;--border:#999;--red:#d93025;--orange:#e8710a;--purple:#7e57c2;--blue:#1a73e8;--green:#0f9d58;--yellow:#e6a700}.btn{padding:7px 12px;border:1px solid #aaa;border-radius:6px;background:#fff;color:#151515}.btn-primary{background:#151515;color:#fff}body{margin:16px;font-family:"Microsoft YaHei",Arial,sans-serif}</style></head><body><div id="rc-car-wiring-v1">
+  <style>
+    #rc-car-wiring-v1 { color: var(--foreground); }
+    #rc-car-wiring-v1 .controls { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+    #rc-car-wiring-v1 .view { display:none; }
+    #rc-car-wiring-v1 .view.active { display:block; }
+    #rc-car-wiring-v1 svg { width:100%; height:auto; display:block; }
+    #rc-car-wiring-v1 .board { fill:color-mix(in srgb, var(--muted) 28%, transparent); stroke:var(--border); stroke-width:2; }
+    #rc-car-wiring-v1 .part { fill:color-mix(in srgb, var(--card) 86%, transparent); stroke:var(--foreground); stroke-width:1.4; }
+    #rc-car-wiring-v1 .pin { fill:var(--background); stroke:var(--foreground); stroke-width:1; }
+    #rc-car-wiring-v1 .keepout { fill:color-mix(in srgb, var(--yellow) 15%, transparent); stroke:var(--yellow); stroke-width:1.5; stroke-dasharray:8 6; }
+    #rc-car-wiring-v1 .vb { stroke:var(--red); color:var(--red); }
+    #rc-car-wiring-v1 .gnd { stroke:var(--foreground); color:var(--foreground); }
+    #rc-car-wiring-v1 .v5 { stroke:var(--orange); color:var(--orange); }
+    #rc-car-wiring-v1 .v33 { stroke:var(--purple); color:var(--purple); }
+    #rc-car-wiring-v1 .sig { stroke:var(--blue); color:var(--blue); }
+    #rc-car-wiring-v1 .motor { stroke:var(--green); color:var(--green); }
+    #rc-car-wiring-v1 .wire { fill:none; stroke-width:4; stroke-linecap:round; stroke-linejoin:round; }
+    #rc-car-wiring-v1 .thin { stroke-width:2.2; }
+    #rc-car-wiring-v1 .bus { stroke-width:9; opacity:.78; }
+    #rc-car-wiring-v1 text { fill:var(--foreground); font-size:14px; font-weight:400; }
+    #rc-car-wiring-v1 .title { font-size:23px; font-weight:500; }
+    #rc-car-wiring-v1 .subtitle { font-size:17px; font-weight:500; }
+    #rc-car-wiring-v1 .small { font-size:12px; }
+    #rc-car-wiring-v1 .tiny { font-size:10.5px; }
+    #rc-car-wiring-v1 .net-label { font-size:12px; font-weight:500; }
+    #rc-car-wiring-v1 .hole { fill:none; stroke:var(--border); stroke-width:.7; opacity:.65; }
+    #rc-car-wiring-v1 .solder { fill:var(--muted); stroke:var(--foreground); stroke-width:1; }
+    #rc-car-wiring-v1 .note { fill:color-mix(in srgb, var(--muted) 35%, transparent); stroke:var(--border); stroke-width:1; }
+  </style>
+
+  <div class="controls" aria-label="接线图视图">
+    <button type="button" class="btn btn-primary" data-view="schematic" aria-pressed="true">车辆原理连接</button>
+    <button type="button" class="btn" data-view="placement" aria-pressed="false">洞洞板元件面</button>
+    <button type="button" class="btn" data-view="solder" aria-pressed="false">洞洞板焊接面</button>
+    <button type="button" class="btn" data-view="remote" aria-pressed="false">遥控器A板</button>
+  </div>
+
+  <section class="view active" data-panel="schematic">
+    <svg viewBox="0 0 1200 800" role="img" aria-labelledby="sch-title sch-desc">
+      <title id="sch-title">RC-Car V1车辆原理连接图</title>
+      <desc id="sch-desc">四节镍氢电池经过三条功率支路连接电机驱动、舵机和5V升降压模块。ESP32-C3用3.3V驱动TB6612逻辑，并通过八根控制线连接双电机与舵机。</desc>
+      <text x="30" y="34" class="title">车辆B板：完整原理连接</text>
+      <text x="30" y="58" class="small">红=VBAT　黑=GND　橙=5V逻辑　紫=3.3V逻辑　蓝=GPIO信号　绿=电机输出</text>
+
+      <rect x="35" y="105" width="160" height="115" rx="6" class="part"/>
+      <text x="115" y="133" text-anchor="middle" class="subtitle">4×AA镍氢电池</text>
+      <text x="55" y="164">+　4.8～5.6V</text><circle cx="184" cy="158" r="7" class="pin"/>
+      <text x="55" y="198">−　公共GND</text><circle cx="184" cy="192" r="7" class="pin"/>
+
+      <rect x="245" y="92" width="180" height="150" rx="6" class="part"/>
+      <text x="335" y="120" text-anchor="middle" class="subtitle">5V升降压模块</text>
+      <text x="260" y="153">IN+</text><circle cx="250" cy="148" r="6" class="pin"/>
+      <text x="260" y="187">IN−</text><circle cx="250" cy="182" r="6" class="pin"/>
+      <text x="372" y="153">OUT+</text><circle cx="420" cy="148" r="6" class="pin"/>
+      <text x="372" y="187">OUT−</text><circle cx="420" cy="182" r="6" class="pin"/>
+      <text x="335" y="222" text-anchor="middle" class="small">输出先测量：4.9～5.1V</text>
+
+      <rect x="505" y="80" width="235" height="322" rx="6" class="part"/>
+      <text x="622" y="107" text-anchor="middle" class="subtitle">ESP32-C3 SuperMini（B）</text>
+      <text x="525" y="135" class="tiny">左排全部引脚</text><text x="655" y="135" class="tiny">右排全部引脚</text>
+      <g class="tiny">
+        <text x="530" y="160">5V</text><circle cx="510" cy="155" r="5" class="pin"/>
+        <text x="530" y="188">GND</text><circle cx="510" cy="183" r="5" class="pin"/>
+        <text x="530" y="216">3V3</text><circle cx="510" cy="211" r="5" class="pin"/>
+        <text x="530" y="244">GPIO4 → AIN2</text><circle cx="510" cy="239" r="5" class="pin"/>
+        <text x="530" y="272">GPIO3 → AIN1</text><circle cx="510" cy="267" r="5" class="pin"/>
+        <text x="530" y="300">GPIO2 未用</text><circle cx="510" cy="295" r="5" class="pin"/>
+        <text x="530" y="328">GPIO1 未用</text><circle cx="510" cy="323" r="5" class="pin"/>
+        <text x="530" y="356">GPIO0 未用</text><circle cx="510" cy="351" r="5" class="pin"/>
+        <text x="655" y="160">GPIO10 → BIN2</text><circle cx="735" cy="155" r="5" class="pin"/>
+        <text x="655" y="188">GPIO9 启动脚/未用</text><circle cx="735" cy="183" r="5" class="pin"/>
+        <text x="655" y="216">GPIO8 启动脚/未用</text><circle cx="735" cy="211" r="5" class="pin"/>
+        <text x="655" y="244">GPIO7 → BIN1</text><circle cx="735" cy="239" r="5" class="pin"/>
+        <text x="655" y="272">GPIO6 → STBY</text><circle cx="735" cy="267" r="5" class="pin"/>
+        <text x="655" y="300">GPIO5 → PWMA</text><circle cx="735" cy="295" r="5" class="pin"/>
+        <text x="655" y="328">GPIO21 → SERVO</text><circle cx="735" cy="323" r="5" class="pin"/>
+        <text x="655" y="356">GPIO20 → PWMB</text><circle cx="735" cy="351" r="5" class="pin"/>
+      </g>
+      <rect x="570" y="370" width="105" height="24" class="keepout"/>
+      <text x="622" y="387" text-anchor="middle" class="tiny">天线净空区</text>
+
+      <rect x="810" y="75" width="345" height="350" rx="6" class="part"/>
+      <text x="982" y="103" text-anchor="middle" class="subtitle">TB6612FNG（全部16引脚）</text>
+      <g class="tiny">
+        <text x="840" y="137">PWMA ← GPIO5</text><circle cx="815" cy="132" r="5" class="pin"/>
+        <text x="840" y="170">AIN2 ← GPIO4</text><circle cx="815" cy="165" r="5" class="pin"/>
+        <text x="840" y="203">AIN1 ← GPIO3</text><circle cx="815" cy="198" r="5" class="pin"/>
+        <text x="840" y="236">STBY ← GPIO6</text><circle cx="815" cy="231" r="5" class="pin"/>
+        <text x="840" y="269">BIN1 ← GPIO7</text><circle cx="815" cy="264" r="5" class="pin"/>
+        <text x="840" y="302">BIN2 ← GPIO10</text><circle cx="815" cy="297" r="5" class="pin"/>
+        <text x="840" y="335">PWMB ← GPIO20</text><circle cx="815" cy="330" r="5" class="pin"/>
+        <text x="840" y="368">GND</text><circle cx="815" cy="363" r="5" class="pin"/>
+        <text x="1050" y="137">VM ← VBAT+</text><circle cx="1150" cy="132" r="5" class="pin"/>
+        <text x="1050" y="170">VCC ← 3V3</text><circle cx="1150" cy="165" r="5" class="pin"/>
+        <text x="1050" y="203">GND</text><circle cx="1150" cy="198" r="5" class="pin"/>
+        <text x="1050" y="236">AO1 → 后左电机</text><circle cx="1150" cy="231" r="5" class="pin"/>
+        <text x="1050" y="269">AO2 → 后左电机</text><circle cx="1150" cy="264" r="5" class="pin"/>
+        <text x="1050" y="302">BO2 → 后右电机</text><circle cx="1150" cy="297" r="5" class="pin"/>
+        <text x="1050" y="335">BO1 → 后右电机</text><circle cx="1150" cy="330" r="5" class="pin"/>
+        <text x="1050" y="368">GND</text><circle cx="1150" cy="363" r="5" class="pin"/>
+      </g>
+
+      <rect x="70" y="520" width="225" height="108" rx="6" class="part"/>
+      <text x="182" y="548" text-anchor="middle" class="subtitle">MG995 舵机</text>
+      <text x="90" y="577">红：VBAT+</text><circle cx="288" cy="572" r="6" class="pin"/>
+      <text x="90" y="605">棕/黑：GND</text><circle cx="288" cy="600" r="6" class="pin"/>
+      <text x="90" y="625" class="tiny">橙/黄：GPIO21（1380μs中位）</text>
+
+      <rect x="825" y="510" width="145" height="80" rx="6" class="part"/>
+      <text x="897" y="538" text-anchor="middle" class="subtitle">后左电机</text>
+      <text x="897" y="564" text-anchor="middle" class="small">AO1 / AO2</text>
+      <rect x="1000" y="510" width="145" height="80" rx="6" class="part"/>
+      <text x="1072" y="538" text-anchor="middle" class="subtitle">后右电机</text>
+      <text x="1072" y="564" text-anchor="middle" class="small">BO1 / BO2</text>
+
+      <rect x="330" y="520" width="165" height="108" rx="6" class="part"/>
+      <text x="412" y="548" text-anchor="middle" class="subtitle">电容</text>
+      <text x="345" y="575" class="small">C1 1000μF：VM-GND</text><circle cx="490" cy="563" r="5" class="pin"/><circle cx="490" cy="578" r="5" class="pin"/>
+      <text x="345" y="604" class="small">C2 1000μF：舵机电源</text><circle cx="490" cy="592" r="5" class="pin"/><circle cx="490" cy="607" r="5" class="pin"/>
+      <text x="345" y="620" class="tiny">C3/C4 100nF：各电机端子</text>
+
+      <!-- Power and ground networks -->
+      <path d="M184 158 H220 V148 H250" class="wire vb"/>
+      <path d="M184 158 H470 V460 H1165 V132 H1150" class="wire vb"/>
+      <path d="M184 158 H315 V485 H288 V572" class="wire vb"/>
+      <path d="M184 192 H225 V182 H250" class="wire gnd"/>
+      <path d="M184 192 H455 V680 H1165 V363 H1150" class="wire gnd"/>
+      <path d="M420 182 H455" class="wire gnd"/>
+      <path d="M455 680 V183 H510" class="wire gnd"/>
+      <path d="M455 680 H288 V600" class="wire gnd"/>
+      <path d="M455 680 H790 V363 H815" class="wire gnd thin"/>
+      <path d="M490 563 H505 V460" class="wire vb thin"/><path d="M490 578 H475 V680" class="wire gnd thin"/>
+      <path d="M490 592 H515 V485 H315" class="wire vb thin"/><path d="M490 607 H485 V680" class="wire gnd thin"/>
+      <path d="M420 148 H470 V155 H510" class="wire v5"/>
+      <path d="M510 211 H780 V165 H1150" class="wire v33"/>
+
+      <!-- Signal harness summarized -->
+      <path d="M735 295 H785 V132 H815" class="wire sig thin"/>
+      <path d="M510 239 H770 V165 H815" class="wire sig thin"/>
+      <path d="M510 267 H760 V198 H815" class="wire sig thin"/>
+      <path d="M735 267 H775 V231 H815" class="wire sig thin"/>
+      <path d="M735 239 H770 V264 H815" class="wire sig thin"/>
+      <path d="M735 155 H760 V297 H815" class="wire sig thin"/>
+      <path d="M735 351 H780 V330 H815" class="wire sig thin"/>
+      <path d="M735 323 H760 V475 H310 V615 H288" class="wire sig thin"/>
+
+      <path d="M1150 231 H1175 V470 H897 V510" class="wire motor"/>
+      <path d="M1150 264 H1188 V485 H920 V510" class="wire motor thin"/>
+      <path d="M1150 297 H1190 V470 H1072 V510" class="wire motor"/>
+      <path d="M1150 330 H1175 V490 H1095 V510" class="wire motor thin"/>
+
+      <rect x="30" y="712" width="1140" height="60" rx="4" class="note"/>
+      <text x="50" y="739" class="small">烧录时：关闭车辆电池并断开升降压模块 OUT+→ESP32 5V，再连接USB。电机、舵机、电池主电流不得经过面包板或杜邦线。</text>
+      <text x="50" y="761" class="small">电解电容负极条纹接GND；所有GND共地；车辆运行时不要同时接USB 5V与模块5V。</text>
+    </svg>
+  </section>
+
+  <section class="view" data-panel="placement">
+    <svg viewBox="0 0 1200 900" role="img" aria-labelledby="place-title place-desc">
+      <title id="place-title">7乘9厘米洞洞板元件面布局</title>
+      <desc id="place-desc">高电流接线端子放在左侧和下侧边缘，TB6612位于中央，ESP32位于右侧且天线朝板边。红色电池母线和黑色地母线与逻辑信号分开。</desc>
+      <defs><pattern id="hole-grid-top" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="14" cy="14" r="2.3" class="hole"/></pattern></defs>
+      <text x="30" y="32" class="title">7×9cm洞洞板：元件面（从上往下看）</text>
+      <text x="30" y="57" class="small">先按实物干放；电源模块尺寸不确定时用4线端子连接并用铜柱固定，不强行焊死模块本体。</text>
+      <rect x="65" y="85" width="980" height="756" class="board"/>
+      <rect x="65" y="85" width="980" height="756" fill="url(#hole-grid-top)"/>
+      <text x="85" y="112" class="small">高电流/电源区</text><text x="465" y="112" class="small">驱动区</text><text x="795" y="112" class="small">逻辑区（天线靠板边）</text>
+
+      <rect x="95" y="145" width="150" height="68" rx="4" class="part"/>
+      <text x="170" y="169" text-anchor="middle" class="subtitle">JBAT 2P</text><text x="170" y="193" text-anchor="middle" class="small">1=VBAT+　2=GND</text>
+      <rect x="95" y="245" width="245" height="100" rx="4" class="part"/>
+      <text x="217" y="272" text-anchor="middle" class="subtitle">5V模块/模块接口</text>
+      <text x="112" y="300" class="small">IN+　IN−　OUT+　OUT−</text><text x="112" y="327" class="small">OUT+=ESP 5V；OUT−=GND</text>
+      <rect x="95" y="395" width="180" height="70" rx="4" class="part"/>
+      <text x="185" y="420" text-anchor="middle" class="subtitle">JSERVO 3P</text><text x="185" y="446" text-anchor="middle" class="small">GND｜VBAT｜SIG21</text>
+      <rect x="95" y="525" width="155" height="65" rx="4" class="part"/>
+      <text x="172" y="550" text-anchor="middle" class="subtitle">JML 2P</text><text x="172" y="574" text-anchor="middle" class="small">AO1｜AO2</text>
+      <rect x="95" y="635" width="155" height="65" rx="4" class="part"/>
+      <text x="172" y="660" text-anchor="middle" class="subtitle">JMR 2P</text><text x="172" y="684" text-anchor="middle" class="small">BO1｜BO2</text>
+
+      <rect x="300" y="410" width="72" height="112" rx="4" class="part"/>
+      <text x="336" y="432" text-anchor="middle" class="small">C1</text><text x="336" y="453" text-anchor="middle" class="tiny">1000μF</text><text x="336" y="476" text-anchor="middle" class="tiny">VM-GND</text><text x="336" y="500" text-anchor="middle" class="tiny">负极向GND母线</text>
+      <rect x="300" y="555" width="72" height="112" rx="4" class="part"/>
+      <text x="336" y="577" text-anchor="middle" class="small">C2</text><text x="336" y="598" text-anchor="middle" class="tiny">1000μF</text><text x="336" y="621" text-anchor="middle" class="tiny">舵机电源</text><text x="336" y="645" text-anchor="middle" class="tiny">负极向GND母线</text>
+
+      <rect x="445" y="205" width="250" height="355" rx="6" class="part"/>
+      <text x="570" y="232" text-anchor="middle" class="subtitle">TB6612FNG（插座安装）</text>
+      <g class="tiny">
+        <text x="463" y="268">PWMA</text><text x="463" y="302">AIN2</text><text x="463" y="336">AIN1</text><text x="463" y="370">STBY</text>
+        <text x="463" y="404">BIN1</text><text x="463" y="438">BIN2</text><text x="463" y="472">PWMB</text><text x="463" y="506">GND</text>
+        <text x="624" y="268">VM</text><text x="624" y="302">VCC</text><text x="624" y="336">GND</text><text x="624" y="370">AO1</text>
+        <text x="624" y="404">AO2</text><text x="624" y="438">BO2</text><text x="624" y="472">BO1</text><text x="624" y="506">GND</text>
+      </g>
+      <circle cx="450" cy="263" r="5" class="pin"/><circle cx="450" cy="297" r="5" class="pin"/><circle cx="450" cy="331" r="5" class="pin"/><circle cx="450" cy="365" r="5" class="pin"/>
+      <circle cx="450" cy="399" r="5" class="pin"/><circle cx="450" cy="433" r="5" class="pin"/><circle cx="450" cy="467" r="5" class="pin"/><circle cx="450" cy="501" r="5" class="pin"/>
+      <circle cx="690" cy="263" r="5" class="pin"/><circle cx="690" cy="297" r="5" class="pin"/><circle cx="690" cy="331" r="5" class="pin"/><circle cx="690" cy="365" r="5" class="pin"/>
+      <circle cx="690" cy="399" r="5" class="pin"/><circle cx="690" cy="433" r="5" class="pin"/><circle cx="690" cy="467" r="5" class="pin"/><circle cx="690" cy="501" r="5" class="pin"/>
+
+      <rect x="790" y="190" width="205" height="390" rx="6" class="part"/>
+      <text x="892" y="216" text-anchor="middle" class="subtitle">ESP32-C3 B（插座）</text>
+      <g class="tiny">
+        <text x="808" y="250">5V</text><text x="808" y="286">GND</text><text x="808" y="322">3V3</text><text x="808" y="358">GPIO4</text>
+        <text x="808" y="394">GPIO3</text><text x="808" y="430">GPIO2 NC</text><text x="808" y="466">GPIO1 NC</text><text x="808" y="502">GPIO0 NC</text>
+        <text x="920" y="250">GPIO10</text><text x="920" y="286">GPIO9 NC</text><text x="920" y="322">GPIO8 NC</text><text x="920" y="358">GPIO7</text>
+        <text x="920" y="394">GPIO6</text><text x="920" y="430">GPIO5</text><text x="920" y="466">GPIO21</text><text x="920" y="502">GPIO20</text>
+      </g>
+      <rect x="790" y="535" width="205" height="42" class="keepout"/><text x="892" y="561" text-anchor="middle" class="small">ESP天线净空 ≥10mm</text>
+
+      <path d="M88 130 V760 H400" class="wire vb bus"/><text x="98" y="746" class="net-label">VBAT+粗线母线</text>
+      <path d="M405 790 H1015" class="wire gnd bus"/><text x="790" y="816" class="net-label">GND粗线母线（焊接面用20AWG裸铜/绝缘线）</text>
+      <path d="M300 445 H88" class="wire vb thin"/><path d="M372 500 H405 V790" class="wire gnd thin"/>
+      <path d="M300 590 H88" class="wire vb thin"/><path d="M372 645 H405" class="wire gnd thin"/>
+      <path d="M245 179 H400 V130 H720 V263 H690" class="wire vb thin"/>
+      <path d="M275 430 H405 V130" class="wire vb thin"/>
+      <path d="M340 295 H760 V250 H790" class="wire v5 thin"/>
+      <path d="M790 322 H735 V297 H690" class="wire v33 thin"/>
+      <path d="M790 358 H735 V297 H450" class="wire sig thin"/>
+      <path d="M790 394 H730 V331 H450" class="wire sig thin"/>
+      <path d="M995 430 H740 V263 H450" class="wire sig thin"/>
+      <path d="M995 394 H750 V365 H450" class="wire sig thin"/>
+      <path d="M995 358 H755 V399 H450" class="wire sig thin"/>
+      <path d="M995 250 H765 V433 H450" class="wire sig thin"/>
+      <path d="M995 502 H775 V467 H450" class="wire sig thin"/>
+      <path d="M995 466 H1030 V430 H275" class="wire sig thin"/>
+
+      <rect x="1065" y="130" width="110" height="500" rx="4" class="note"/>
+      <text x="1120" y="157" text-anchor="middle" class="subtitle">布局规则</text>
+      <text x="1080" y="190" class="tiny">① 端子靠板边</text><text x="1080" y="217" class="tiny">② 粗电源线走边缘</text>
+      <text x="1080" y="244" class="tiny">③ GPIO线走中间</text><text x="1080" y="271" class="tiny">④ VM电容靠驱动</text>
+      <text x="1080" y="298" class="tiny">⑤ 舵机电容靠端子</text><text x="1080" y="325" class="tiny">⑥ 模块用母座可拆</text>
+      <text x="1080" y="352" class="tiny">⑦ 天线区不铺铜</text><text x="1080" y="379" class="tiny">⑧ USB口朝板边</text>
+      <text x="1080" y="406" class="tiny">⑨ 电机线远离天线</text><text x="1080" y="433" class="tiny">⑩ 首次上电限流检查</text>
+      <text x="1080" y="485" class="tiny">模块实物尺寸不同：</text><text x="1080" y="510" class="tiny">焊接前先干放、标孔</text>
+      <text x="1080" y="550" class="tiny">本文不允许电机/舵机</text><text x="1080" y="575" class="tiny">主电流经过薄铜焊盘</text>
+    </svg>
+  </section>
+
+  <section class="view" data-panel="solder">
+    <svg viewBox="0 0 1200 810" role="img" aria-labelledby="sold-title sold-desc">
+      <title id="sold-title">洞洞板焊接面网络图</title>
+      <desc id="sold-desc">从焊接面观察的镜像网络图。粗红线为电池正极母线，粗黑线为公共地母线，所有模块使用短点对点绝缘线连接。</desc>
+      <defs><pattern id="hole-grid-bottom" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="14" cy="14" r="2.3" class="hole"/></pattern></defs>
+      <text x="30" y="32" class="title">洞洞板焊接面（从板底看，已经相对元件面左右镜像）</text>
+      <text x="30" y="57" class="small">不要照着元件面直接翻焊；先用万用表通断档确认每条网络，电源母线使用20～22AWG线，不使用长距离焊锡桥。</text>
+      <rect x="75" y="90" width="1020" height="650" class="board"/>
+      <rect x="75" y="90" width="1020" height="650" fill="url(#hole-grid-bottom)"/>
+
+      <path d="M1060 125 V700 H780" class="wire vb bus"/><text x="840" y="690" class="net-label">VBAT+</text>
+      <path d="M1010 705 H135" class="wire gnd bus"/><text x="150" y="695" class="net-label">公共GND</text>
+
+      <rect x="835" y="145" width="170" height="65" rx="3" class="part"/><text x="920" y="171" text-anchor="middle" class="subtitle">JBAT焊点</text><text x="920" y="196" text-anchor="middle" class="small">VBAT+｜GND</text>
+      <rect x="790" y="250" width="215" height="92" rx="3" class="part"/><text x="897" y="276" text-anchor="middle" class="subtitle">5V模块四线焊点</text><text x="897" y="304" text-anchor="middle" class="small">IN+｜IN−｜OUT+｜OUT−</text><text x="897" y="329" text-anchor="middle" class="tiny">OUT+只接ESP 5V</text>
+      <rect x="845" y="395" width="160" height="62" rx="3" class="part"/><text x="925" y="421" text-anchor="middle" class="subtitle">SERVO 3P</text><text x="925" y="445" text-anchor="middle" class="small">SIG21｜VBAT｜GND</text>
+      <rect x="850" y="525" width="145" height="58" rx="3" class="part"/><text x="922" y="550" text-anchor="middle" class="subtitle">MOTOR A</text><text x="922" y="572" text-anchor="middle" class="small">AO1｜AO2</text>
+      <rect x="850" y="625" width="145" height="58" rx="3" class="part"/><text x="922" y="650" text-anchor="middle" class="subtitle">MOTOR B</text><text x="922" y="672" text-anchor="middle" class="small">BO1｜BO2</text>
+
+      <rect x="430" y="185" width="245" height="355" rx="5" class="part"/><text x="552" y="213" text-anchor="middle" class="subtitle">TB6612焊盘（镜像）</text>
+      <g class="tiny">
+        <text x="455" y="250">VM</text><text x="455" y="283">VCC</text><text x="455" y="316">GND</text><text x="455" y="349">AO1</text>
+        <text x="455" y="382">AO2</text><text x="455" y="415">BO2</text><text x="455" y="448">BO1</text><text x="455" y="481">GND</text>
+        <text x="585" y="250">PWMA</text><text x="585" y="283">AIN2</text><text x="585" y="316">AIN1</text><text x="585" y="349">STBY</text>
+        <text x="585" y="382">BIN1</text><text x="585" y="415">BIN2</text><text x="585" y="448">PWMB</text><text x="585" y="481">GND</text>
+      </g>
+
+      <rect x="145" y="170" width="205" height="390" rx="5" class="part"/><text x="247" y="198" text-anchor="middle" class="subtitle">ESP32-C3 B焊盘（镜像）</text>
+      <g class="tiny">
+        <text x="165" y="235">GPIO10</text><text x="165" y="271">GPIO9 NC</text><text x="165" y="307">GPIO8 NC</text><text x="165" y="343">GPIO7</text>
+        <text x="165" y="379">GPIO6</text><text x="165" y="415">GPIO5</text><text x="165" y="451">GPIO21</text><text x="165" y="487">GPIO20</text>
+        <text x="275" y="235">5V</text><text x="275" y="271">GND</text><text x="275" y="307">3V3</text><text x="275" y="343">GPIO4</text>
+        <text x="275" y="379">GPIO3</text><text x="275" y="415">GPIO2 NC</text><text x="275" y="451">GPIO1 NC</text><text x="275" y="487">GPIO0 NC</text>
+      </g>
+      <rect x="145" y="515" width="205" height="42" class="keepout"/><text x="247" y="541" text-anchor="middle" class="small">此区域背面不走线/不铺铜</text>
+
+      <!-- bottom-view point to point harness -->
+      <path d="M350 343 H395 V283 H585" class="wire sig thin"/><text x="395" y="334" class="tiny">GPIO4→AIN2</text>
+      <path d="M350 379 H405 V316 H585" class="wire sig thin"/><text x="398" y="373" class="tiny">GPIO3→AIN1</text>
+      <path d="M145 415 H105 V225 H585 V250" class="wire sig thin"/><text x="105" y="218" class="tiny">GPIO5→PWMA</text>
+      <path d="M145 379 H118 V349 H585" class="wire sig thin"/><text x="122" y="341" class="tiny">GPIO6→STBY</text>
+      <path d="M145 343 H128 V382 H585" class="wire sig thin"/><text x="130" y="397" class="tiny">GPIO7→BIN1</text>
+      <path d="M145 235 H92 V415 H585" class="wire sig thin"/><text x="92" y="431" class="tiny">GPIO10→BIN2</text>
+      <path d="M145 487 H80 V448 H585" class="wire sig thin"/><text x="82" y="465" class="tiny">GPIO20→PWMB</text>
+      <path d="M145 451 H110 V425 H845" class="wire sig thin"/><text x="690" y="417" class="tiny">GPIO21→SERVO SIG</text>
+      <path d="M350 307 H400 V283 H430" class="wire v33 thin"/><text x="358" y="299" class="tiny">3V3→VCC</text>
+      <path d="M350 235 H760 V315 H790" class="wire v5 thin"/><text x="660" y="228" class="tiny">模块OUT+→ESP 5V</text>
+      <path d="M430 349 H750 V554 H850" class="wire motor thin"/><path d="M430 382 H735 V570 H850" class="wire motor thin"/>
+      <path d="M430 415 H720 V654 H850" class="wire motor thin"/><path d="M430 448 H705 V670 H850" class="wire motor thin"/>
+
+      <rect x="75" y="758" width="1020" height="38" rx="3" class="note"/>
+      <text x="95" y="782" class="small">焊接顺序：母座/端子 → 信号短线 → 5V/3.3V → 粗VBAT/GND母线 → 电容；每完成一组先测短路，再装模块通电。</text>
+    </svg>
+  </section>
+
+  <section class="view" data-panel="remote">
+    <svg viewBox="0 0 1050 650" role="img" aria-labelledby="remote-title remote-desc">
+      <title id="remote-title">遥控器A板完整接线</title>
+      <desc id="remote-desc">PS2双轴摇杆由ESP32三点三伏供电，VRx连接GPIO0，VRy连接GPIO1，按键连接GPIO2。其余ESP32引脚未使用。</desc>
+      <text x="30" y="34" class="title">遥控器A板：PS2摇杆与ESP32-C3</text>
+      <rect x="70" y="125" width="310" height="310" rx="6" class="part"/>
+      <text x="225" y="158" text-anchor="middle" class="subtitle">PS2双轴摇杆模块</text>
+      <text x="105" y="210">GND</text><circle cx="365" cy="205" r="7" class="pin"/>
+      <text x="105" y="258">+5V标签（实际接3.3V）</text><circle cx="365" cy="253" r="7" class="pin"/>
+      <text x="105" y="306">VRx（左右）</text><circle cx="365" cy="301" r="7" class="pin"/>
+      <text x="105" y="354">VRy（前后）</text><circle cx="365" cy="349" r="7" class="pin"/>
+      <text x="105" y="402">SW（按下急停）</text><circle cx="365" cy="397" r="7" class="pin"/>
+
+      <rect x="610" y="80" width="330" height="455" rx="6" class="part"/>
+      <text x="775" y="112" text-anchor="middle" class="subtitle">ESP32-C3 SuperMini（A）</text>
+      <g class="small">
+        <text x="635" y="155">5V：未用</text><text x="635" y="193">GND → 摇杆GND</text><text x="635" y="231">3V3 → 摇杆+5V标签</text>
+        <text x="635" y="269">GPIO4：未用</text><text x="635" y="307">GPIO3：未用</text><text x="635" y="345">GPIO2 → SW</text>
+        <text x="635" y="383">GPIO1 → VRy</text><text x="635" y="421">GPIO0 → VRx</text>
+        <text x="805" y="155">GPIO10：未用</text><text x="805" y="193">GPIO9：未用</text><text x="805" y="231">GPIO8：未用</text>
+        <text x="805" y="269">GPIO7：未用</text><text x="805" y="307">GPIO6：未用</text><text x="805" y="345">GPIO5：未用</text>
+        <text x="805" y="383">GPIO21：未用</text><text x="805" y="421">GPIO20：未用</text>
+      </g>
+      <rect x="690" y="460" width="170" height="43" class="keepout"/><text x="775" y="487" text-anchor="middle" class="small">天线净空；USB供电</text>
+
+      <path d="M365 205 H500 V193 H610" class="wire gnd"/>
+      <path d="M365 253 H515 V231 H610" class="wire v33"/>
+      <path d="M365 301 H530 V421 H610" class="wire sig"/>
+      <path d="M365 349 H545 V383 H610" class="wire sig"/>
+      <path d="M365 397 H560 V345 H610" class="wire sig"/>
+
+      <rect x="70" y="500" width="510" height="100" rx="4" class="note"/>
+      <text x="90" y="529" class="small">摇杆电源必须接3.3V，不接5V；否则VRx/VRy可能超过ESP32 ADC安全范围。</text>
+      <text x="90" y="556" class="small">GPIO2为启动相关引脚：复位或刚上电时不要按住摇杆。</text>
+      <text x="90" y="583" class="small">A板原型使用USB充电宝供电；GND、3.3V和三根信号线可用杜邦线或焊接排线。</text>
+    </svg>
+  </section>
+
+  <script>
+    (() => {
+      const root = document.getElementById('rc-car-wiring-v1');
+      const buttons = [...root.querySelectorAll('[data-view]')];
+      const panels = [...root.querySelectorAll('[data-panel]')];
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const selected = button.dataset.view;
+          buttons.forEach((item) => {
+            const active = item === button;
+            item.classList.toggle('btn-primary', active);
+            item.setAttribute('aria-pressed', active ? 'true' : 'false');
+          });
+          panels.forEach((panel) => panel.classList.toggle('active', panel.dataset.panel === selected));
+        });
+      });
+    })();
+  </script>
+</div>
+</body></html>
